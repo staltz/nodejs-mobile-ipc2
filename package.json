@@ -2,12 +2,16 @@
   "name": "nodejs-mobile-ipc",
   "author": "da-mkay (https://github.com/da-mkay)",
   "description": "An abstraction of nodejs-mobile-cordova channels that allows to call functions on the other side and retrieve their results.",
-  "keywords": ["nodejs-mobile-cordova", "ipc", "rpc"],
+  "keywords": [
+    "nodejs-mobile-cordova",
+    "ipc",
+    "rpc"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/da-mkay/nodejs-mobile-ipc.git"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
