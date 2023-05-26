@@ -1,30 +1,30 @@
-# nodejs-mobile-ipc
+# nodejs-mobile-ipc2
 
-_An abstraction of nodejs-mobile-cordova channels that allows to call functions on the other side and retrieve their results._
+_An abstraction for nodejs-mobile-cordova and nodejs-mobile-react-native channels that allows you to call functions on the other side and retrieve their results._
 
 ## Installation
 
-    npm i nodejs-mobile-ipc
+    npm i nodejs-mobile-ipc2
 
 ## Usage
 
-Create a new NodeCordovaIPC instance:
+Create a new NodejsMobileIPC instance:
 
-    const ipc = new NodeCordovaIPC(channel);
+    const ipc = new NodejsMobileIPC(channel);
 
-`channel` can be either `cordova.channel` (in nodejs app) or `nodejs.channel` (in cordova app).
+`channel` can be either `rnBridge.channel` (in the Node.js project) or `nodejs.channel` (in the React Native app).
 
 ### Provide and call functions
 
 To provide a function for the other side of the channel use the `register` method:
 
     ipc.register('myFunction', (param) => {
-        return 'You send: ' + param;
+      return 'You send: ' + param;
     });
 
 Then, the other side of the channel can call that function and retrieve its return value by using the `call` method:
 
-    const result = await ipc.call('myFunction', 'TEST'); // result is 'You send: TEST' 
+    const result = await ipc.call('myFunction', 'TEST'); // result is 'You send: TEST'
 
 NOTE: For each function name there can only be one handler function registered.
 
@@ -33,7 +33,7 @@ NOTE: For each function name there can only be one handler function registered.
 Event handlers can be registered using the `on` method.
 
     ipc.on('myEvent', (param1, param2) => {
-        // Do something here, but do not return a value.
+      // Do something here, but do not return a value.
     });
 
 They are triggered using the `emit` method on the other side:
@@ -45,28 +45,27 @@ Unlike `call`, `emit` will not return a value!
 NOTE: In contrast to functions, there can be multiple handler registered for an event.
 
 
-## Example: nodejs app (here: Javascript)
+## Example: Node.js project
 
-    const cordova = require('cordova-bridge');
-    const NodeCordovaIPC = require('nodejs-mobile-ipc').NodeCordovaIPC;
+    const rnBridge = require('rn-bridge');
+    const NodejsMobileIPC = require('nodejs-mobile-ipc2').NodejsMobileIPC;
 
-    const ipc = new NodeCordovaIPC(cordova.channel);
-    // Register function "myFunction", which can be called by cordova app.
+    const ipc = new NodejsMobileIPC(rnBridge.channel);
     ipc.register('myFunction', (param) => {
-        return 'You send: ' + param;
+      return 'You send: ' + param;
     });
 
 
-## Example: cordova app (here: Typescript)
+## Example: React Native app
 
-    import { NodeCordovaIPC } from 'nodejs-mobile-ipc';
-    const ipc = new NodeCordovaIPC(nodejs.channel);
+    import { NodejsMobileIPC } from 'nodejs-mobile-ipc2';
+    const ipc = new NodejsMobileIPC(nodejs.channel);
 
     (async () => {
-        try {
-            const result = await ipc.call('myFunction', 'TEST'); 
-            console.log(result); // prints 'You send: TEST'
-        } catch (e) {
-            console.error('Failed to call');
-        }
+      try {
+        const result = await ipc.call('myFunction', 'TEST');
+        console.log(result); // prints 'You send: TEST'
+      } catch (e) {
+        console.error('Failed to call');
+      }
     })();

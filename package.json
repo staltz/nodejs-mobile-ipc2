@@ -1,37 +1,35 @@
 {
-  "name": "nodejs-mobile-ipc",
-  "author": "da-mkay (https://github.com/da-mkay)",
-  "description": "An abstraction of nodejs-mobile-cordova channels that allows to call functions on the other side and retrieve their results.",
+  "name": "nodejs-mobile-ipc2",
+  "version": "1.0.0",
+  "description": "An abstraction of nodejs-mobile-react-native channels that allows to call functions on the other side and retrieve their results.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staltz/nodejs-mobile-ipc2.git"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "author": "Andre 'Staltz' Medeiros <contact@staltz.com>",
+  "license": "MIT",
   "keywords": [
+    "nodejs-mobile-react-native",
     "nodejs-mobile-cordova",
     "ipc",
     "rpc"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/da-mkay/nodejs-mobile-ipc.git"
+  "engines": {
+    "node": ">=16.17.0"
   },
-  "version": "0.0.2",
-  "license": "MIT",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+  "dependencies": {
+    "tslib": "^2.5.2"
   },
-  "dependencies": {},
   "devDependencies": {
-    "@angular-devkit/build-ng-packagr": "~0.803.17",
-    "@angular/cli": "~8.3.4",
-    "@angular/compiler": "~8.2.5",
-    "@angular/compiler-cli": "~8.2.5",
-    "@angular/core": "~8.2.5",
-    "@types/node": "~8.9.4",
-    "ng-packagr": "^5.4.0",
-    "ts-node": "~7.0.0",
-    "tslint": "~5.15.0",
-    "typescript": "~3.5.3"
+    "@types/node": "16",
+    "typescript": "~5.0.4"
+  },
+  "scripts": {
+    "tsc": "tsc"
   }
 }
