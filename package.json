@@ -1,6 +1,6 @@
 {
   "name": "nodejs-mobile-ipc2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An abstraction of nodejs-mobile-react-native channels that allows to call functions on the other side and retrieve their results.",
   "repository": {
     "type": "git",
