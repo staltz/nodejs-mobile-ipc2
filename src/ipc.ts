@@ -26,12 +26,12 @@ export class NodejsMobileIPC {
     if (!this.pendingCalls.has(result.id)) {
       return;
     }
-    const call = this.pendingCalls.get(result.id);
+    const [resolve, reject] = this.pendingCalls.get(result.id);
     this.pendingCalls.delete(result.id);
     if (result.status === 'ok') {
-      call[0](result.data);
+      resolve(result.data);
     } else {
-      call[1](result.error);
+      reject(new Error(result.error));
     }
   }
 
