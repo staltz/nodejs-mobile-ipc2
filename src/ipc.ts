@@ -11,6 +11,28 @@ import {IPCChannel} from './interfaces/channel';
 type Resolver = (value?: any) => void;
 type Rejecter = (reason?: any) => void;
 
+function packError(error: Error): Array<string> {
+  const msgs = [];
+  let thisErr: Error | undefined = error;
+  while (thisErr?.message ?? thisErr) {
+    msgs.push(thisErr.message ?? String(thisErr));
+    thisErr = thisErr.cause as Error | undefined;
+  }
+  return msgs;
+}
+
+function unpackError(msgs: Array<string>): Error {
+  let err: Error | undefined = undefined;
+  for (let i = msgs.length - 1; i >= 0; i--) {
+    if (err) {
+      err = new Error(msgs[i], {cause: err});
+    } else {
+      err = new Error(msgs[i]);
+    }
+  }
+  return err;
+}
+
 export class NodejsMobileIPC {
   private callHandlers = new Map<string, IPCCallHandler>();
   private eventHandlers = new Map<string, IPCEventHandler[]>();
@@ -31,7 +53,7 @@ export class NodejsMobileIPC {
     if (result.status === 'ok') {
       resolve(result.data);
     } else {
-      reject(new Error(result.error));
+      reject(unpackError(result.error));
     }
   }
 
@@ -50,7 +72,7 @@ export class NodejsMobileIPC {
       const result: IPCCallResultError = {
         id,
         status: 'error',
-        error: `Function ${fn} does not exist!`,
+        error: [`Function ${fn} does not exist!`],
       };
       this.channel.post('ipc:call-result', result);
       return;
@@ -69,10 +91,10 @@ export class NodejsMobileIPC {
         status: 'error',
         error:
           e instanceof Error
-            ? e.message
+            ? packError(e)
             : typeof e === 'string'
-            ? e
-            : 'Unknown Error',
+            ? [e]
+            : ['Unknown Error'],
       };
       this.channel.post('ipc:call-result', result);
     }
@@ -82,11 +104,7 @@ export class NodejsMobileIPC {
     return new Promise<any>((resolve, reject) => {
       const id = this.generateID();
       this.pendingCalls.set(id, [resolve, reject]);
-      const call: IPCCall = {
-        id,
-        fn,
-        args,
-      };
+      const call: IPCCall = {id, fn, args};
       this.channel.post('ipc:call', call);
     });
   }

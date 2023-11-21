@@ -13,7 +13,7 @@ export interface IPCCallResultOK {
 export interface IPCCallResultError {
   id: number;
   status: 'error';
-  error?: string;
+  error: Array<string>;
 }
 
 export type IPCCallResult = IPCCallResultOK | IPCCallResultError;
